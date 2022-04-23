@@ -1,0 +1,8 @@
+# build/bin/tiny test/tiny/parser/test_1.tiny -emit=ast
+
+def main() {
+
+   var _a[2][3] = [1, 2, 3, 4, 5, 6];
+   
+}
+

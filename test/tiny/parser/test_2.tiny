@@ -1,0 +1,8 @@
+# build/bin/tiny test/tiny/parser/test_2.tiny -emit=ast
+
+def main() {
+
+   var b2c3[2][3] = [1, 2, 3, 4, 5, 6];
+   
+}
+

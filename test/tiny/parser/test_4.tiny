@@ -1,0 +1,8 @@
+# build/bin/tiny test/tiny/parser/test_4.tiny -emit=ast
+
+def main() {
+
+    var dd4_[2][3] = [1, 2, 3, 4, 5, 6];
+
+}
+
