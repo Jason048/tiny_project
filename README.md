@@ -45,7 +45,7 @@ cmake --build . --target check-mlir
 
 ### 3. 安装tiny_project： 
 ```
-git clone ...(发布的时候修改为正确的链接地址)
+git clone https://github.com/Jason048/tiny_project.git
 mkdir build  
 cd build
 # 下面的LLVM_DIR和MLIR_DIR要改成自己llvm-project对应的路径
