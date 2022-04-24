@@ -130,7 +130,7 @@ private:
     lastLocation.col = curCol;
 
     //TODO: Here you need to identify:
-    //      1. Keywords: "return", "def", "def", "var"
+    //      1. Keywords: "return", "def", "var"
     //      2. Variable names
     //      Note that a variable name should follow some rules:
     //      1) It should start with a letter.
