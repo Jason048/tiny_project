@@ -468,7 +468,6 @@ private:
     // TODO: modify code to support var a[][] = ... 
     if (lexer.getCurToken() == '<') {
       type = parseType();
-      if (!type)ype();
       if (!type)
         return nullptr;
     }
