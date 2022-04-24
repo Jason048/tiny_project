@@ -34,6 +34,7 @@ cmake -G Ninja ../llvm \
 
 
 ![avatar](imgs/p1.png) 
+    
 之后执行：
 ```
 cmake --build . --target check-mlir
