@@ -433,10 +433,7 @@ private:
   }
 
   // TODO:
-  // Parse a variable declaration, it starts with a `var` keyword followed by
-  // and identifier and an optional type (shape specification) before the
-  // optionally required initializer.
-  // decl ::= var identifier [ type ] (= expr)?
+  // Parse a variable declaration, it starts with a `var` keyword 
   // You should support three kinds of representations:
   // 1. var a = [[1, 2, 3], [4, 5, 6]];
   // 2. var a <2,3> = [1, 2, 3, 4, 5, 6];
