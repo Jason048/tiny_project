@@ -73,7 +73,7 @@ struct SimplifyRedundantTranspose : public mlir::OpRewritePattern<TransposeOp> {
      *
      */
 
-    // step 3: Otherwise, we have a redundant transpose. Use the rewriter.
+    // step 3: Otherwise, we have a redundant transpose. Use the rewriter to remove redundancy.
     // Hint: For mlir::PatternRewriter, there is a function you may use to remove redundancy: 
     //       void replaceOp (mlir::Operation *op, mlir::ValueRange newValues)
     //       Operations of the second argument will be replaced by the first argument.
@@ -90,7 +90,6 @@ struct SimplifyRedundantTranspose : public mlir::OpRewritePattern<TransposeOp> {
 
 /// Register our patterns as "canonicalization" patterns on the TransposeOp so
 /// that they can be picked up by the Canonicalization framework.
-/// TODO
 void TransposeOp::getCanonicalizationPatterns(RewritePatternSet &results,
                                               MLIRContext *context) {
   results.add<SimplifyRedundantTranspose>(context);
