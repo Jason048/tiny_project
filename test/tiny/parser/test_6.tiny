@@ -1,5 +1,5 @@
-# step 1: build/bin/tiny test/tiny/parser/test_6.tiny -emit=ast
-# step 2: build/bin/tiny test/tiny/parser/test_6.tiny -emit=jit
+# build/bin/tiny test/tiny/parser/test_6.tiny -emit=ast
+# build/bin/tiny test/tiny/parser/test_6.tiny -emit=jit
 def multiply_transpose(a, b) {
   return transpose(a) * transpose(b);
 }
