@@ -63,6 +63,7 @@ cmake -G Ninja ..
 ### 4. 基础功能的实现与验证：
 
 **词法分析器**(/tiny_project/tiny/include/tiny/Lexer.h)：
+    
 在Lexer.h搜索"TODO"，可以看到需要补充的代码位置。
 实现以下功能
 
@@ -74,6 +75,7 @@ cmake -G Ninja ..
 &emsp;例如：有效的变量名可以是 a123, b_4, placeholder 等。
 
 **语法分析器**(/tiny_project/tiny/include/tiny/Parser.h)：
+    
 在Parser.h搜索"TODO"，可以看到需要补充的代码位置。
 实现以下功能
 
@@ -87,6 +89,7 @@ cmake -G Ninja ..
 当你对词法分析器和语法分析器补充完毕后，可以运行以下指令来检查程序的正确性。
 
 **词法分析器验证（test_1 - test_4）：**
+    
 以test_1为例：
 build tiny并执行下面测试用例以验证词法分析器是否能够检测出错误的词法单元
 ```
@@ -99,6 +102,7 @@ build/bin/tiny test/tiny/parser/test_1.tiny -emit=ast
 ![avatar](imgs/p4.png)
 
 **语法分析器验证（test_5）：**
+    
 执行下面测试用例以验证语法分析器是否能够检测出var a [2][3] = ...类型
 ```
 build/bin/tiny test/tiny/parser/test_5.tiny -emit=ast
@@ -116,6 +120,7 @@ build/bin/tiny test/tiny/parser/test_5.tiny -emit=jit
 将tiny dialect的冗余转置代码优化pass补充完整。最终实现冗余代码的消除。
 
 **代码优化验证（test_6）：**
+    
 对于test_6中的例子：
 ```
 def transpose_transpose(x) {
