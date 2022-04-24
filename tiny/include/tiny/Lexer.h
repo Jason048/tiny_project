@@ -138,7 +138,7 @@ private:
     //      3) If there are numbers in the name, they should be at the end of the name. 
     //      For example, these names are valid: a123, b_4, placeholder
   
-    //Hints: 1. You can refer to the implementaion of "Number" in this function.
+    //Hints: 1. You can refer to the implementaion of identifying a "number" in the same function.
     //       2. Some functions that might be useful:  isalpha(); isalnum();
     //       3. Maybe it is better for you to go through the whole lexer before you get started.
 
@@ -148,7 +148,7 @@ private:
      *
      */
 
-    // Number: [0-9] ([0-9.])*
+    // Identify a number: [0-9] ([0-9.])*
     if (isdigit(lastChar)) {
       std::string numStr;
       do {
