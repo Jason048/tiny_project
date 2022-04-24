@@ -49,9 +49,9 @@ cmake --build . --target check-mlir
 git clone https://github.com/Jason048/tiny_project.git
 mkdir build  
 cd build
-# 下面的LLVM_DIR和MLIR_DIR要改成自己llvm-project对应的路径
 
-# 路径修改后，将下面的三行命令copy到build目录下的terminal中执行
+# 将下面的三行命令在build目录下的terminal中执行
+# 注意下面的LLVM_DIR和MLIR_DIR要改成自己llvm-project对应的路径
 LLVM_DIR=/Path/to/llvm-project/build/lib/cmake/llvm \
 MLIR_DIR=/Path/to/llvm-project/build/lib/cmake/mlir \
 cmake -G Ninja ..
@@ -60,7 +60,7 @@ cmake -G Ninja ..
 
 ![avatar](imgs/p3.png) 
 这里需要根据你llvm-project的下载地址设置好LLVM_DIR和MLIR_DIR的路径。
-### 4. 基础功能的实现与验证：
+### 4. 基础部分的实现与验证：
 
 **词法分析器**(/tiny_project/tiny/include/tiny/Lexer.h)：
     
@@ -79,12 +79,12 @@ cmake -G Ninja ..
 在Parser.h搜索"TODO"，可以看到需要补充的代码位置。
 实现以下功能
 
-1).  语法变量必须以“var”开头，后面为变量名及变量类型，最后为变量的初始化<br>
-2).  语法分析器能够识别如下三种表示：<br>
+1).  语法变量必须以“var”开头，后面为变量名及类型，最后为变量的初始化<br>
+2).  语法分析器已支持以下两种初始化形式，以一个二维矩阵为例：<br>
 &emsp;• var a = \[[1, 2, 3], [4, 5, 6]] <br>
-&emsp;• var a <2,3> = [1, 2, 3, 4, 5, 6]<br>
-&emsp;• var a [2][3] = [1, 2, 3, 4, 5, 6]<br>
-&emsp;注： var a [2][3] = ... 为我们新增的声明及定义方式，在本次作业中对于此种形式，我们只要求语法分析器能识别这种表示，生成对应的合法AST即可。如果想要在终端打印出Tensor信息，则需拓展Tiny dialect以支持此新增表示。
+&emsp;• var a<2,3> = [1, 2, 3, 4, 5, 6]<br>
+需要同学们额外支持第三种新的形式：<br>
+&emsp;• var a[2][3] = [1, 2, 3, 4, 5, 6]<br>
 
 当你对词法分析器和语法分析器补充完毕后，可以运行以下指令来检查程序的正确性。
 
@@ -101,18 +101,19 @@ build/bin/tiny test/tiny/parser/test_1.tiny -emit=ast
 
 ![avatar](imgs/p4.png)
 
-**语法分析器验证（test_5）：**
+**语法分析器验证（test_5-test_6）：**
     
-执行下面测试用例以验证语法分析器是否能够检测出var a [2][3] = ...类型
+测试test_5: 验证语法分析器能否识别出三种声明及初始化方式，输出AST（-emit=ast）：
 ```
 build/bin/tiny test/tiny/parser/test_5.tiny -emit=ast
 ```
-如果执行结果如下图所示，表示语法分析器分析正确。
-![avatar](imgs/p5.png)
-同学们还可以运行以下指令查看程序的运行结果：
+测试test_6: 执行以下指令查看输入程序的运行结果（-emit=jit）：
 ```
-build/bin/tiny test/tiny/parser/test_5.tiny -emit=jit
+build/bin/tiny test/tiny/parser/test_6.tiny -emit=jit
 ```
+注： var a[2][3] = ... 为我们新增的声明及定义方式，在本次作业中对于此种形式，我们只要求语法分析器能识别这种表示，生成对应的合法AST即可。如果想要查看输入程序的运行结果，则需拓展Tiny dialect以支持此新增表示，感兴趣的同学可以自己尝试。
+
+### 5. 进阶部分的实现与验证：
 **代码优化**(/tiny_project/tiny/mlir/TinyCombine.cpp)：
     
 在TinyCombine.cpp搜索"TODO"，可以看到需要补充的代码位置。
@@ -120,9 +121,9 @@ build/bin/tiny test/tiny/parser/test_5.tiny -emit=jit
 实现以下功能：
 将tiny dialect的冗余转置代码优化pass补充完整。最终实现冗余代码的消除。
 
-**代码优化验证（test_6）：**
+**代码优化验证（test_7）：**
     
-对于test_6中的例子：
+对于test_7中的例子：
 ```
 def transpose_transpose(x) {
   return transpose(transpose(x));
@@ -134,35 +135,24 @@ def main() {
   print(b);
 }
 ```
-执行以下指令，获取转换后的tiny dialect，并实现冗余转置操作的消除。
+执行以下指令，输出转换后的tiny dialect（即转换后的代码表示），
+查看输出结果可判断是否成功消除冗余转置
 ```
-build/bin/tiny test/tiny/parser/test_6.tiny -emit=mlir -opt
+build/bin/tiny test/tiny/parser/test_7.tiny -emit=mlir -opt
 ```
-转换后的code应如下：
+注释掉刚刚在TinyCombine.cpp中添加的代码，执行指令查看未优化的输出，对比优化前后输出的差异
 ```
-tiny.func @main()
-    [[VAL_1:%.*]] = tiny.constant dense<{{\[\[}}1.000000e+00, 
-    2.000000e+00, 3.000000e+00], [4.000000e+00, 5.000000e+00, 6.000000e+00]]> : tensor<2x3xf64>
-    tiny.print [[VAL_1]] : tensor<2x3xf64>
-    tiny.return
+build/bin/tiny test/tiny/parser/test_7.tiny -emit=mlir -opt
 ```
 
-同时，同学们还可以通过test_6实现一个完整的端到端流程：
 
-对于测试文件test_6，按照以下顺序运行指令：
+此外，同学们还可以利用不同指令，输出此测试用例在编译过程中出现的多种形式：
 
+将.tiny文件转换为抽象语法树AST：
 ```
-step 1: build/bin/tiny test/tiny/parser/test_6.tiny -emit=ast
+build/bin/tiny test/tiny/parser/test_7.tiny -emit=ast
 ```
-得到.tiny文件的抽象语法树
-
+或直接得到tiny程序的运行结果，是否进行消除冗余不会影响运行结果
 ```
-step 2: build/bin/tiny test/tiny/parser/test_6.tiny -emit=mlir -opt
+build/bin/tiny test/tiny/parser/test_7.tiny -emit=jit
 ```
-将代码从.tiny文件转换成.mlir文件，这里是否实现进阶部分内容会影响输出的.mlir代码。同学们可以自行比较两种方式下产生的代码并在报告中指出。
-
-
-```
-step 3: build/bin/tiny test/tiny/parser/test_6.tiny -emit=jit
-```
-得到tiny程序的运行结果，是否进行代码优化不会影响最终运行结果。
