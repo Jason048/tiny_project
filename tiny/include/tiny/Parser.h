@@ -444,7 +444,7 @@ private:
   // Note that "var a [2][3] = ..." is a newly supported representation of a var. In order to pass all test cases, you are 
   // required to modify several functions in several files. For example, you may need to modify the print function of the 
   // AST in ast.cpp to support the representation of "var a [2][3] = ...".
-  // Some functions that might be useful:  getLastLocation(); getNextToken()();
+  // Some functions that might be useful:  getLastLocation(); getNextToken();
   std::unique_ptr<VarDeclExprAST>
   parseVarDeclaration(bool requiresInitializer) {
 
