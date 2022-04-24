@@ -110,6 +110,7 @@ build/bin/tiny test/tiny/parser/test_5.tiny -emit=jit
 ```
 **代码优化**(/tiny_project/tiny/mlir/TinyCombine.cpp)：
 在TinyCombine.cpp搜索"TODO"，可以看到需要补充的代码位置。
+    
 实现以下功能：
 将tiny dialect的冗余转置代码优化pass补充完整。最终实现冗余代码的消除。
 
