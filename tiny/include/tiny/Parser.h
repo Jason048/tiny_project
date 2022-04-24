@@ -432,37 +432,39 @@ private:
     return parseTypedDeclaration(typeName, requiresInitializer, loc);
   }
 
-  // TODO:
-  // Parse a variable declaration, it starts with a `var` keyword 
-  // You should support three kinds of representations:
-  // 1. var a = [[1, 2, 3], [4, 5, 6]];
-  // 2. var a <2,3> = [1, 2, 3, 4, 5, 6];
-  // 3. var a [2][3] = [1, 2, 3, 4, 5, 6];
-  // Note that "var a [2][3] = ..." is a newly supported representation of a var. In order to pass all test cases, you are 
-  // required to modify several functions in several files. For example, you may need to modify the print function of the 
-  // AST in ast.cpp to support the representation of "var a [2][3] = ...".
-  // Some functions that might be useful:  getLastLocation(); getNextToken();
+
+  // Parse a variable declaration, 
+  // 1. it starts with a `var` keyword, followed by a variable name and initialization
+  // 2. Two methods of initialization have been supported:
+  //    (1) var a = [[1, 2, 3], [4, 5, 6]];
+  //    (2) var a <2,3> = [1, 2, 3, 4, 5, 6];
+  // You need to support the third method:
+  //    (3) var a [2][3] = [1, 2, 3, 4, 5, 6];
+  // Some functions may be useful:  getLastLocation(); getNextToken();
   std::unique_ptr<VarDeclExprAST>
   parseVarDeclaration(bool requiresInitializer) {
 
-    // report parserError of tok_var and eat var
+    // TODO: check to see if this is a 'var' declaration 
+    //       If not, report the error with 'parseError', otherwise eat 'var'  
     /* 
      *
      *  Write your code here.
      *
      */
 
-    // report parserError of tok_identifier
+    // TODO: check to see if this is a variable name 
+    //       If not, report the error with 'parseError'
     /* 
      *
      *  Write your code here.
      *
      */
+    // eat the variable name
     std::string id(lexer.getId());
     lexer.getNextToken(); // eat id
 
     std::unique_ptr<VarType> type; 
-    // TODO: modify code to support var a[][] = ... 
+    // TODO: modify code to additionally support the third method: var a[][] = ... 
     if (lexer.getCurToken() == '<') {
       type = parseType();
       if (!type)
