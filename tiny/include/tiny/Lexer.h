@@ -140,7 +140,7 @@ private:
   
     //Hints: 1. You can refer to the implementaion of "Number" in this function.
     //       2. Some functions that might be useful:  isalpha(); isalnum();
-    //       3. Maybe it is better for you to go throught the whole lexer before you get startted.
+    //       3. Maybe it is better for you to go through the whole lexer before you get started.
 
     /* 
      *
