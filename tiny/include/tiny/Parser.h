@@ -70,7 +70,7 @@ private:
   Lexer &lexer;
 
   /// Parse a return statement.
-  /// return :== return ; | return expr ;
+  /// return ::= return | return expr
   std::unique_ptr<ReturnExprAST> parseReturn() {
     auto loc = lexer.getLastLocation();
     lexer.consume(tok_return);
@@ -433,7 +433,7 @@ private:
   }
 
 
-  // Parse a variable declaration, 
+  // Parse a variable declaration,
   // 1. it starts with a `var` keyword, followed by a variable name and initialization
   // 2. Two methods of initialization have been supported:
   //    (1) var a = [[1, 2, 3], [4, 5, 6]];
@@ -444,27 +444,26 @@ private:
   std::unique_ptr<VarDeclExprAST>
   parseVarDeclaration(bool requiresInitializer) {
 
-    // TODO: check to see if this is a 'var' declaration 
-    //       If not, report the error with 'parseError', otherwise eat 'var'  
-    /* 
+    // TODO: check to see if this is a 'var' declaration
+    //       If not, report the error with 'parseError', otherwise eat 'var'
+    /*
      *
      *  Write your code here.
      *
      */
 
-    // TODO: check to see if this is a variable name 
+    // TODO: check to see if this is a variable name
     //       If not, report the error with 'parseError'
-    /* 
+    /*
      *
      *  Write your code here.
      *
      */
-    // eat the variable name
     std::string id(lexer.getId());
-    lexer.getNextToken(); // eat id
+    lexer.getNextToken(); // eat the variable name
 
-    std::unique_ptr<VarType> type; 
-    // TODO: modify code to additionally support the third method: var a[][] = ... 
+    std::unique_ptr<VarType> type;
+    // TODO: modify code to additionally support the third method: var a[][] = ...
     if (lexer.getCurToken() == '<') {
       type = parseType();
       if (!type)
@@ -487,7 +486,7 @@ private:
   ///
   /// block ::= { expression_list }
   /// expression_list ::= block_expr ; expression_list
-  /// block_expr ::= decl | "return" | expr
+  /// block_expr ::= decl | return | expr
   std::unique_ptr<ExprASTList> parseBlock() {
     if (lexer.getCurToken() != '{')
       return parseError<ExprASTList>("{", "to begin block");
