@@ -216,7 +216,7 @@ struct FuncOpLowering : public OpConversionPattern<tiny::FuncOp> {
     }
 
     // Create a new non-tiny function, with the same region.
-    auto func = rewriter.create<mlir::FuncOp>(op.getLoc(), op.getName(),
+    auto func = rewriter.create<mlir::func::FuncOp>(op.getLoc(), op.getName(),
                                               op.getFunctionType());
     rewriter.inlineRegionBefore(op.getRegion(), func.getBody(), func.end());
     rewriter.eraseOp(op);
