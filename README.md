@@ -19,7 +19,7 @@ sudo apt install ninja-build
 ```
 ### 2. 安装MLIR： 
 ```
-git clone https://github.com/llvm/llvm-project.git
+git clone https://github.com/Jason048/llvm-project.git
 mkdir llvm-project/build
 cd llvm-project/build
 cmake -G Ninja ../llvm \
